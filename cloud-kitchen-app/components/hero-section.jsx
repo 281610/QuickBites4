@@ -29,7 +29,7 @@ export default function HeroSection() {
             transition={{ duration: 0.5 }}
             style={{fontSize:"80px"}}
           >
-                     Welcome to <span style={{color:"red"}}>QuickBites </span>Homemade Happiness, Delivered!
+                     Welcome to <span style={{color:"red"}}>QuickBites </span> Homemade Happiness, Delivered!
 
           </motion.h1>
 
