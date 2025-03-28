@@ -29,7 +29,8 @@ export default function HeroSection() {
             transition={{ duration: 0.5 }}
             style={{fontSize:"80px"}}
           >
-            आपका स्वागत है <br /> स्वाद और घर की <br />परंपरा के संग।
+                     Welcome to <span style={{color:"red"}}>QuickBites </span>Homemade Happiness, Delivered!
+
           </motion.h1>
 
           <motion.p
