@@ -130,7 +130,7 @@ export default function BuyerPanel() {
     // Check if user is logged in
     const user = localStorage.getItem("user")
     if (!user) {
-      router.push("/login")
+      router.push("")
       return
     }
 

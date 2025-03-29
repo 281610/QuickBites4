@@ -37,53 +37,106 @@
 
 
 
-
-
-
 import express from "express";
-import cors from "cors";
 import mongoose from "mongoose";
-import foodRouter from "./routes/foodRoute.js";
-import userRouter from "./routes/userRoute.js";
-import cartRouter from "./routes/cartRoute.js";
-import orderRouter from "./routes/orderRoute.js";
+import cors from "cors";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
-// Load environment variables
 dotenv.config();
 
-// Initialize Express application
 const app = express();
-const port = process.env.PORT || 4000; // Use environment variable for port or default to 4000
+const PORT = process.env.PORT || 4000;
+const MONGO_URI = process.env.MONGO_URI;
+const JWT_SECRET = process.env.JWT_SECRET;
 
-// Middlewares
 app.use(express.json());
 app.use(cors());
 
-main().catch((err) => console.log(err));
+// MongoDB Connection
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log("✅ MongoDB Connected"))
+    .catch((err) => console.log("❌ MongoDB Connection Error:", err));
 
-async function main() {
-  await mongoose.connect("mongodb://127.0.0.1/Quick_Bites");
-  console.log("database connected");
-}
-
-// API Endpoints
-app.use("/api/food", foodRouter);
-app.use("/images", express.static("uploads")); // Serve static images
-app.use("/api/user", userRouter);
-app.use("/api/cart", cartRouter);
-app.use("/api/order", orderRouter);
-
-// Default route
-app.get("/", (req, res) => {
-  res.send("API is up and running!");
+// User Schema
+const UserSchema = new mongoose.Schema({
+    name: String,
+    email: { type: String, unique: true },
+    password: String,
+    role: { type: String, enum: ["buyer", "cook"], required: true },
+    phone: String,
+    address: String,
+    city: String
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
+const User = mongoose.model("User", UserSchema);
+
+// Signup Route
+app.post("/signup", async (req, res) => {
+    const { name, email, password, role, phone, address, city } = req.body;
+    
+    if (!name || !email || !password || !role) {
+        return res.status(400).json({ success: false, message: "All fields are required" });
+    }
+
+    try {
+        const userExist = await User.findOne({ email });
+        if (userExist) {
+            return res.status(400).json({ success: false, message: "User already registered" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ name, email, password: hashedPassword, role, phone, address, city });
+        await newUser.save();
+
+        res.json({ success: true, message: "Signup successful" });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Internal server error" });
+    }
 });
 
-// server.listen(process.env.PORT, () => {
-//   console.log("server started");
-// });
+// Signin Route
+app.post("/signin", async (req, res) => {
+  try {
+      const { email, password } = req.body;
+      const user = await User.findOne({ email });
+      if (!user) {
+          return res.status(400).json({ success: false, message: "User not found" });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+          return res.status(400).json({ success: false, message: "Invalid credentials" });
+      }
+
+      const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: "1h" });
+      res.json({ success: true, message: "Login successful", token, role: user.role });
+
+  } catch (error) {
+      console.error("Server error:", error);
+      res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
+// Middleware for Protected Routes
+const verifyToken = (req, res, next) => {
+    const token = req.headers["authorization"];
+    if (!token) return res.status(403).json({ success: false, message: "No token provided" });
+
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+        if (err) return res.status(401).json({ success: false, message: "Unauthorized" });
+        req.user = decoded;
+        next();
+    });
+};
+
+// Protected Route Example (Dashboard)
+app.get("/dashboard", verifyToken, (req, res) => {
+    res.json({ success: true, message: "Welcome to Dashboard", user: req.user });
+});
+
+// Start Server
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

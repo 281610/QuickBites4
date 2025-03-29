@@ -166,23 +166,31 @@ export default function CookPanel() {
   const [isAddDishOpen, setIsAddDishOpen] = useState(false)
   const [editingDish, setEditingDish] = useState(null)
 
+  // const [username, setUsername] = useState("")
+
+  const [username, setUsername] = useState("")
+
   useEffect(() => {
     // Check if user is logged in
-    const user = localStorage.getItem("user")
+    const user = localStorage.getItem("user");
     if (!user) {
-      router.push("/login")
-      return
+      router.push("");
+      return;
     }
-
-    const userData = JSON.parse(user)
+  
+    // Parse user data and set username
+    const userData = JSON.parse(user);
+    setUsername(userData.username || userData.name || "User");
+  
+    // Check role and redirect if not 'cook'
     if (userData.role !== "cook") {
-      router.push("/buyer-panel")
-      return
+      router.push("/buyer-panel");
+      return;
     }
-
+  
     // Show location popup on page load
-    setShowLocationPopup(true)
-
+    setShowLocationPopup(true);
+  
     // Check if we already have location permission
     if (navigator.geolocation) {
       navigator.permissions &&
@@ -195,29 +203,30 @@ export default function CookPanel() {
                   setLocation({
                     lat: position.coords.latitude,
                     lng: position.coords.longitude,
-                  })
-                  setShowLocationPopup(false)
+                  });
+                  setShowLocationPopup(false);
                 },
                 (error) => {
-                  console.error("Geolocation error:", error)
+                  console.error("Geolocation error:", error);
                   // Set default location and don't hide popup
-                  setLocation({ lat: 19.076, lng: 72.8777 }) // Default to Mumbai
+                  setLocation({ lat: 19.076, lng: 72.8777 }); // Default to Mumbai
                 },
-                { timeout: 10000, enableHighAccuracy: true },
-              )
+                { timeout: 10000, enableHighAccuracy: true }
+              );
             }
           })
           .catch((error) => {
-            console.error("Permission query error:", error)
+            console.error("Permission query error:", error);
             // Fallback for browsers that don't support permissions API
-            setLocation({ lat: 19.076, lng: 72.8777 }) // Default to Mumbai
-          })
+            setLocation({ lat: 19.076, lng: 72.8777 }); // Default to Mumbai
+          });
     } else {
       // Geolocation not supported
-      setLocation({ lat: 19.076, lng: 72.8777 }) // Default to Mumbai
-      console.warn("Geolocation is not supported by this browser")
+      setLocation({ lat: 19.076, lng: 72.8777 }); // Default to Mumbai
+      console.warn("Geolocation is not supported by this browser");
     }
-  }, [router])
+  }, [router]);
+  
 
   const handleLocationPermission = () => {
     if (navigator.geolocation) {
@@ -327,7 +336,11 @@ export default function CookPanel() {
   return (
     <div className="flex flex-col min-h-screen">
       <CookHeader />
-
+      <header className="p-4 bg-gray-800 text-white">
+      <div className="container mx-auto">
+        Welcome, {username}
+      </div>
+    </header>
       <main className="flex-1 bg-muted/40 pb-20">
         <div className="container py-6">
           <Tabs defaultValue="dashboard" value={activeTab} onValueChange={setActiveTab} className="space-y-6">

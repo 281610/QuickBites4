@@ -61,47 +61,46 @@ export default function SignupPage() {
     e.preventDefault();
     setIsLoading(true);
     setError("");
-  
+
     try {
-      const response = await fetch("http://localhost:4000/api/user/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-          role: formData.role,
-          phone: formData.phone,
-          address: formData.address,
-          city: formData.city,
-        }),
-      });
-  
-      const data = await response.json();
-  
-      if (data.success) {
-        // Store token and role in localStorage
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("role", data.role);
-  
-        // Redirect user based on role
-        if (formData.role === "cook") {
-          router.push("/cook-panel");
+        const response = await fetch("http://localhost:4000/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: formData.name,
+                email: formData.email,
+                password: formData.password,
+                role: formData.role,
+                phone: formData.phone,
+                address: formData.address,
+                city: formData.city,
+            }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("role", data.role);
+
+            if (data.role === "cook") {
+                router.push("/cook-panel");
+            } else {
+                router.push("/buyer-panel");
+            }
         } else {
-          router.push("/buyer-panel");
+            setError(data.message);
         }
-      } else {
-        setError(data.message);
-      }
     } catch (err) {
-      console.error(err);
-      setError("An error occurred. Please try again.");
+        console.error(err);
+        setError("An error occurred. Please try again.");
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
-  };
+};
+
   
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/40 p-4" style={{display:"flex",justifyContent:"space-between", padding:"0",margin:"0"}}>
@@ -320,3 +319,21 @@ export default function SignupPage() {
   )
 }
 
+
+
+
+
+// fetch("http://localhost:4000/signup", {
+//   method: "POST",
+//   headers: { "Content-Type": "application/json" },
+//   body: JSON.stringify({ name, email, password })
+// })
+// .then(res => res.json())
+// .then(data => {
+//   if (data.success) {
+//       window.location.href = "/app/login\page.jsx"; // Redirect to Signin page
+//   } else {
+//       alert(data.message);
+//   }
+// })
+// .catch(err => console.error(err));
