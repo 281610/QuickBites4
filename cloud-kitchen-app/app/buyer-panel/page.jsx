@@ -31,78 +31,78 @@ const categories = [
 const popularDishes = [
   {
     id: 1,
-    name: "Homestyle Butter Chicken",
-    image: "/placeholder.svg?height=400&width=600&text=Butter+Chicken",
+    name: "Roti",
+    image: "https://vistapointe.net/images/roti-2.jpg",
     price: 249,
     rating: 4.8,
     reviews: 56,
     cook: "Priya Sharma",
-    cookImage: "/placeholder.svg?height=100&width=100&text=PS",
+    cookImage: "https://funniestindian.com/wp-content/uploads/2023/01/vikas-khanna-may-have-set-up-shop-in-ny-but-he-feels-chefs-in-india-have-a-unique-opportunity-1024x768.jpg",
     category: "North Indian",
     distance: "1.2 km",
     deliveryTime: "30-40 min",
   },
   {
     id: 2,
-    name: "Traditional Masala Dosa",
-    image: "/placeholder.svg?height=400&width=600&text=Masala+Dosa",
+    name: "Dal",
+    image: "https://bing.com/th?id=OSK.65ae7e91070d3273f260659416a3d7b6",
     price: 129,
     rating: 4.9,
     reviews: 42,
     cook: "Lakshmi Iyer",
-    cookImage: "/placeholder.svg?height=100&width=100&text=LI",
+    cookImage: "https://setthetables.com/wp-content/uploads/2022/09/Chef-Yogi-800x1199.jpeg",
     category: "South Indian",
     distance: "0.8 km",
     deliveryTime: "20-30 min",
   },
   {
     id: 3,
-    name: "Authentic Hyderabadi Biryani",
-    image: "/placeholder.svg?height=400&width=600&text=Biryani",
+    name: "Mix Veg",
+    image: "https://th.bing.com/th/id/OIP.TUeY8lpQqgZLgadj29bSJwAAAA?rs=1&pid=ImgDetMain",
     price: 299,
     rating: 4.7,
     reviews: 38,
     cook: "Fatima Khan",
-    cookImage: "/placeholder.svg?height=100&width=100&text=FK",
+    cookImage: "https://bottindia.com/wp-content/uploads/2023/05/Chef-Michael-Swamy-resized-scaled.jpg",
     category: "Mughlai",
     distance: "1.5 km",
     deliveryTime: "35-45 min",
   },
   {
     id: 4,
-    name: "Homemade Gujarati Thali",
-    image: "/placeholder.svg?height=400&width=600&text=Gujarati+Thali",
+    name: "Jeera Rice",
+    image: "https://i1.wp.com/vegecravings.com/wp-content/uploads/2017/04/jeera-rice-recipe-step-by-step-instructions.jpg?w=2076&quality=65&strip=all&ssl=1",
     price: 199,
     rating: 4.8,
     reviews: 29,
     cook: "Anita Desai",
-    cookImage: "/placeholder.svg?height=100&width=100&text=AD",
+    cookImage: "https://bangalore.explocity.com/media/media/posts/Amit-Thapliyal.jpg",
     category: "Gujarati",
     distance: "2.1 km",
     deliveryTime: "40-50 min",
   },
   {
     id: 5,
-    name: "Bengali Fish Curry",
-    image: "/placeholder.svg?height=400&width=600&text=Fish+Curry",
+    name: "Panner",
+    image: "https://i.pinimg.com/originals/2c/23/a9/2c23a9a24b7b031f5ad01c900a9993d7.jpg",
     price: 279,
     rating: 4.6,
     reviews: 31,
     cook: "Mitali Sen",
-    cookImage: "/placeholder.svg?height=100&width=100&text=MS",
+    cookImage: "https://th.bing.com/th/id/OIP.n5_TrOmt8bDMe6QyYhDIugHaHa?w=1920&h=1920&rs=1&pid=ImgDetMain",
     category: "Bengali",
     distance: "1.8 km",
     deliveryTime: "30-40 min",
   },
   {
     id: 6,
-    name: "Punjabi Chole Bhature",
-    image: "/placeholder.svg?height=400&width=600&text=Chole+Bhature",
+    name: "Aloo Paratha",
+    image: "https://th.bing.com/th/id/OIP.IWm9rTKEUQsVoE2tpORnDwHaKA?rs=1&pid=ImgDetMain",
     price: 179,
     rating: 4.7,
     reviews: 44,
     cook: "Harpreet Kaur",
-    cookImage: "/placeholder.svg?height=100&width=100&text=HK",
+    cookImage: "https://th.bing.com/th/id/OIP.n5_TrOmt8bDMe6QyYhDIugHaHa?w=1920&h=1920&rs=1&pid=ImgDetMain",
     category: "Punjabi",
     distance: "1.3 km",
     deliveryTime: "25-35 min",
@@ -118,6 +118,8 @@ export default function BuyerPanel() {
   const [cart, setCart] = useState([])
   const [showMap, setShowMap] = useState(false)
   const [selectedDish, setSelectedDish] = useState(null)
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
   const [filters, setFilters] = useState({
     maxDistance: 5,
     maxPrice: 500,
@@ -211,10 +213,11 @@ export default function BuyerPanel() {
     }
   }
 
-  const handleViewOnMap = (dish) => {
-    setSelectedDish(dish)
-    setShowMap(true)
-  }
+ 
+  const handleViewCart = () => {
+    setIsCartOpen(true);
+  };
+  
 
   const handleFilterChange = (key, value) => {
     setFilters((prev) => ({ ...prev, [key]: value }))
@@ -527,8 +530,8 @@ export default function BuyerPanel() {
                         </div>
 
                         <div className="flex gap-2 mt-4">
-                          <Button variant="outline" size="sm" className="flex-1" onClick={() => handleViewOnMap(dish)}>
-                            View on Map
+                          <Button variant="outline" size="sm" className="flex-1" onClick={handleViewCart }>
+                            View on Cart
                           </Button>
                           <Button
                             className="flex-1 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700"
@@ -555,6 +558,13 @@ export default function BuyerPanel() {
               </div>
             </>
           )}
+          {isCartOpen && (
+  <div className="cart-modal">
+    {/* Your cart component here */}
+    <button onClick={() => setIsCartOpen(false)}>Close Cart</button>
+  </div>
+)}
+
         </div>
       </main>
 

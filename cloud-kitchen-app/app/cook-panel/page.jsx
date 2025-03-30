@@ -80,10 +80,10 @@ const mockOrders = [
 const mockDishes = [
   {
     id: 1,
-    name: "Butter Chicken",
+    name: "Roti",
     description: "Tender chicken cooked in a rich and creamy tomato-based sauce with butter and spices.",
     price: 249,
-    image: "/placeholder.svg?height=400&width=600&text=Butter+Chicken",
+    image: "https://vistapointe.net/images/roti-2.jpg",
     category: "North Indian",
     isVeg: false,
     isAvailable: true,
@@ -93,10 +93,10 @@ const mockDishes = [
   },
   {
     id: 2,
-    name: "Paneer Tikka",
+    name: "Dal",
     description: "Chunks of paneer marinated in spices and grilled to perfection.",
     price: 199,
-    image: "/placeholder.svg?height=400&width=600&text=Paneer+Tikka",
+    image: "https://bing.com/th?id=OSK.65ae7e91070d3273f260659416a3d7b6",
     category: "North Indian",
     isVeg: true,
     isAvailable: true,
@@ -106,10 +106,10 @@ const mockDishes = [
   },
   {
     id: 3,
-    name: "Butter Naan",
+    name: "Mix Veg",
     description: "Soft and fluffy Indian bread brushed with butter.",
     price: 39,
-    image: "/placeholder.svg?height=400&width=600&text=Butter+Naan",
+    image: "https://th.bing.com/th/id/OIP.TUeY8lpQqgZLgadj29bSJwAAAA?rs=1&pid=ImgDetMain",
     category: "Breads",
     isVeg: true,
     isAvailable: true,
@@ -122,7 +122,7 @@ const mockDishes = [
     name: "Jeera Rice",
     description: "Basmati rice flavored with cumin seeds.",
     price: 99,
-    image: "/placeholder.svg?height=400&width=600&text=Jeera+Rice",
+    image: "https://i1.wp.com/vegecravings.com/wp-content/uploads/2017/04/jeera-rice-recipe-step-by-step-instructions.jpg?w=2076&quality=65&strip=all&ssl=1",
     category: "Rice",
     isVeg: true,
     isAvailable: true,
@@ -491,7 +491,7 @@ export default function CookPanel() {
                 <h2 className="text-2xl font-bold">My Menu</h2>
                 <Dialog open={isAddDishOpen} onOpenChange={setIsAddDishOpen}>
                   <DialogTrigger asChild>
-                    <Button className="gap-2 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700">
+                    <Button className="gap-2 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700" >
                       <Plus className="h-4 w-4" />
                       Add New Dish
                     </Button>

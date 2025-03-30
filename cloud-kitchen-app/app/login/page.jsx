@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import logo from "../Assets/imagelogo-removebg-preview.png"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -60,9 +61,17 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/40 p-4" style={{display:"flex",justifyContent:"space-between", padding:"0",margin:"0"}}>
-      <div className="bclass" style={{height:"710px",width:"700px",background:"linear-gradient(to right,rgb(247, 88, 48),rgb(246, 8, 123))",color:"white"}}>
-        <div className="nameofcomp" style={{fontSize:"90px",marginLeft:"100px",marginTop:"150px",marginBottom:"100px",fontFamily:"Boldonse",fontWeight:"bold"}}>QuickBites</div>
-        <div className="hindiname" style={{fontFamily: '"Noto Sans Devanagari", sans-serif',fontSize:"60px",fontWeight:"bold",marginLeft:"100px",marginTop:"60px"}}># स्वाद अपने घर का</div>
+      <div className="bclass" style={{ display: "flex",
+  justifyContent: "center", 
+  alignItems: "center"  ,
+        height:"710px",width:"700px",background:"linear-gradient(to right,rgb(247, 88, 48),rgb(246, 8, 123))",color:"white"}}>
+      <img src={logo.src} style={{
+    display: "block", 
+    margin: "auto", 
+    width: "500px", 
+    height: "500px",
+    padding:"50px"
+  }}    / >
       </div>
       <div className="w-full max-w-md" style={{marginRight:"80px"}}>
         <Card style={{backgroundColor:"lightgray",boxShadow:"10px 10px 30px rgba(0, 0, 0, 0.3)"}}>

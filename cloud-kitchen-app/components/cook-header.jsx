@@ -47,9 +47,11 @@ export default function CookHeader() {
       <div className="container flex h-16 items-center">
         <Link href="/cook-panel" className="flex items-center gap-2">
           <Frame className="w-6 h-6" />
-          <div className="font-bold text-xl bg-gradient-to-r from-orange-500 to-pink-600 text-transparent bg-clip-text">
-            HomeFeast
-          </div>
+          <Link href="/">
+      <div className="font-bold text-xl bg-gradient-to-r from-orange-500 to-pink-600 text-transparent bg-clip-text cursor-pointer">
+        QuickBytes
+      </div>
+    </Link>
         </Link>
 
         <div className="hidden md:flex items-center ml-4">

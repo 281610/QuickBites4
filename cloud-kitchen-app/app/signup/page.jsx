@@ -10,7 +10,8 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import bgimage from "../Assets/imagelogo.jpg";
+import logo from "../Assets/imagelogo-removebg-preview.png"
+
 export default function SignupPage() {
   const router = useRouter()
   const [formData, setFormData] = useState({
@@ -104,10 +105,18 @@ export default function SignupPage() {
   
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/40 p-4" style={{display:"flex",justifyContent:"space-between", padding:"0",margin:"0"}}>
-      <div className="bclass" style={{height:"710px",width:"700px",background:"linear-gradient(to right,rgb(247, 88, 48),rgb(246, 8, 123))",color:"white"}}>
-      <img src={bgimage}/>
-      <div className="nameofcomp" style={{fontSize:"90px",marginLeft:"100px",marginTop:"150px",marginBottom:"100px",fontFamily:"Boldonse",fontWeight:"bold"}}>QuickBites</div>
-      <div className="hindiname" style={{fontFamily: '"Noto Sans Devanagari", sans-serif',fontSize:"60px",fontWeight:"bold",marginLeft:"100px",marginTop:"60px"}}># स्वाद अपने घर का</div>
+      <div className="bclass" style={{ display: "flex",
+  justifyContent: "center", 
+  alignItems: "center"  ,
+        height:"710px",width:"700px",background:"linear-gradient(to right,rgb(247, 88, 48),rgb(246, 8, 123))",color:"white"}}>
+      <img src={logo.src} style={{
+    display: "block", 
+    margin: "auto", 
+    width: "500px", 
+    height: "500px",
+    padding:"50px"
+  }}    / >
+
      { /*<Link href="/" className="flex items-center gap-2 mb-8 justify-center">
           <Frame className="w-8 h-8" />
           <div className="font-bold text-2xl bg-gradient-to-r from-orange-500 to-pink-600 text-transparent bg-clip-text">
